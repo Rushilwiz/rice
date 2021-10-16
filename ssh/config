@@ -1,0 +1,23 @@
+Host server
+    Hostname ssh.crucialnet.org
+    User root
+
+Host mirror
+    Hostname 192.168.1.193
+    User pi
+    IdentityFile ~/.ssh/id_raspi
+
+Host pi 
+    Hostname 192.168.1.193
+    User pi
+    IdentityFile ~/.ssh/id_raspi
+
+Host *.tjhsst.edu
+    GSSAPIAuthentication yes
+
+Host ras
+    Hostname ras.tjhsst.edu
+    User 2023rumareti
+
+Host gitlab.tjhsst.edu
+    LogLevel VERBOSE
