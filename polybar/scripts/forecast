@@ -1,0 +1,1 @@
+~/.config/polybar/scripts/polybar-forecast | sed 's/^/%{F#FBC02D}/' | sed 's/$/%{F-}/'
