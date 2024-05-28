@@ -1,64 +1,79 @@
-# Lines configured by zsh-newuser-install
-HISTFILE=~/.cache/zshhistfile
-HISTSIZE=1000
-SAVEHIST=1000
-setopt autocd extendedglob
-bindkey -v
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-zstyle :compinstall filename '/home/rushilwiz/.zshrc'
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall
+# Set the directory we want to store zinit and plugins
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
-autoload -U compinit
-zstyle ':completion:*' menu select
-zmodload zsh/complist
-compinit
-_comp_options+=(globdots)               # Include hidden files.i
+# Download Zinit, if it's not there yet
+if [ ! -d "$ZINIT_HOME" ]; then
+   mkdir -p "$(dirname $ZINIT_HOME)"
+   git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+fi
 
-autoload -Uz vcs_info
-precmd_vcs_info() { vcs_info }
-precmd_functions+=( precmd_vcs_info )
-setopt prompt_subst
-zstyle ':vcs_info:git:*' formats 'on %F{yellow}(%b)%f'
-zstyle ':vcs_info:*' enable git
+# Source/Load zinit
+source "${ZINIT_HOME}/zinit.zsh"
 
-PROMPT="%F{magenta}%n%f at %F{10}%m%f in %F{cyan}%~%f \$vcs_info_msg_0_
- $ "
+# Add in Powerlevel10k
+zinit ice depth=1; zinit light romkatv/powerlevel10k
 
-RPROMPT="%T"
+# Add in zsh plugins
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+zinit light Aloxaf/fzf-tab
 
-export WORKON_HOME=$HOME/.virtualenvs
-# source ~/.pyenv/versions/3.8.6/bin/virtualenvwrapper_lazy.sh
+# Add in OMZ plgins
+zinit snippet OMZP::git
+zinit snippet OMZP::sudo
+zinit snippet OMZP::command-not-found
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Load completions
+autoload -U compinit && compinit
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-ANTIGEN_LOG=~/antigen.log
-source ~/.zsh/antigen.zsh
+zinit cdreplay -q
 
-# antigen bundle ytakahashi/igit
-antigen bundle wbingli/zsh-wakatime
-antigen bundle zsh-users/zsh-autosuggestions
-antigen bundle pipenv
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-antigen apply
-
+# Keybinds (emacs mode)
+bindkey -e
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
 
-[ -f "$HOME/.zsh/aliasrc" ] && source "$HOME/.zsh/aliasrc"
+# History
+HISTFILE=5000
+HISTFILE=~/.zsh_history
+SAVEHIST=$HISTSIZE
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
 
-export PATH=$HOME/bin:/usr/local/bin:$HOME/.local/bin:$PATH
-export GPG_TTY=$(tty)
-export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
+# Completion styling
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+
+# Aliases
+alias ls='ls --color'
+
+# Shell integrations
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Additional programs
+
 
 export PATH=$HOME/.yarn/bin:$PATH
-
 export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
+export PATH=$PATH:/home/rushil/.spicetify
