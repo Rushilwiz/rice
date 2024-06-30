@@ -372,7 +372,7 @@ for_window [class=Spotify] focus
 # For modifications, it can be copied to ~/.config/picom/picom.conf or ~/.config/picom.conf
 # install picom package (yay -S picom)
 # start using default config 
-exec_always --no-startup-id picom -b -f --inactive-opacity=0.75 
+exec_always --no-startup-id picom --config ~/.config/picom.conf 
 
 set $i3l autosplit to workspace $ws1
 set $i3l autosplit to workspace $ws2
@@ -423,7 +423,7 @@ exec --no-startup-id ~/.screenlayout/monitor.sh
 
 # set wallpaper
 #exec --no-startup-id sleep 2 && nitrogen --restore
-exec --no-startup-id ~/.config/i3/scripts/background-randomize ~/.config/i3/background/india 600 
+exec_always --no-startup-id ~/.config/i3/scripts/run-background-randomize 
 
 # set powersavings for display:
 exec --no-startup-id xset s 480 dpms 600 600 600
