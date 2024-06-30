@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# Unique identifier for this script
+script_name=$(basename "$0")
+
+# Check if the script is already running, excluding the current instance and any text editor sessions
+if pgrep -f "$script_name" | grep -qv "$$"; then
+    echo "An instance of $script_name is already running."
+    exit 1
+fi
+
+# Continuously set a random background image
+while true; do
+    feh --randomize --bg-fill "$1"/*
+    sleep "$2"
+done
+

@@ -1,0 +1,2 @@
+#!/bin/bash
+~/.config/i3/scripts/background-randomize ~/.config/i3/background/india 600 &
