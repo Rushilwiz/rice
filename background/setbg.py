@@ -17,6 +17,6 @@ idx = second_of_day * 180 // total_seconds
 
 selected_bg = bgs[idx]
 
-os.system(f"feh --bg-scale {os.path.join(bg_dir, selected_bg)}")
+os.system(f"/home/rushil/.config/polybar/scripts/pywal.sh {os.path.join(bg_dir, selected_bg)}")
 
 print(f"It's {current_time.tm_hour:02}:{current_time.tm_min:02}:{current_time.tm_sec:02}, setting to {idx}")
