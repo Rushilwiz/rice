@@ -20,6 +20,7 @@ zinit ice wait"0b" lucid atload'bindkey "$terminfo[kcuu1]" history-substring-sea
 zinit light zsh-users/zsh-history-substring-search
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
+bindkey "^[[3~" delete-char
 
 zinit ice lucid wait'0'
 zinit light joshskidmore/zsh-fzf-history-search
@@ -36,6 +37,7 @@ zinit cdreplay -q
 
 
 # Initialize oh-my-posh
+export PATH=$PATH:/home/rushil/.local/bin
 eval "$(oh-my-posh init zsh -c /home/rushil/.zen.toml)"
 
 # Keybinds (emacs mode)
@@ -64,15 +66,25 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 
 # Aliases
 alias ls='ls --color'
+alias ssh="kitten ssh"
 
 # Shell integrations
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Additional programs
 
-
 # export PATH=$HOME/.yarn/bin:$PATH
 # export PATH="$HOME/.pyenv/bin:$PATH"
 # eval "$(pyenv init -)"
 # eval "$(pyenv virtualenv-init -)"
 export PATH=$PATH:/home/rushil/.spicetify
+autoload bashcompinit
+bashcompinit
+source "/home/rushil/.local/share/bash-completion/completions/am"
+
+# bun completions
+[ -s "/home/rushil/.bun/_bun" ] && source "/home/rushil/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
